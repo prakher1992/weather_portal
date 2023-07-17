@@ -1,3 +1,4 @@
 Flask==2.3.2
 Flask-WTF==1.1.1
 wtforms[email]
+Flask-SQLAlchemy==3.0.5
