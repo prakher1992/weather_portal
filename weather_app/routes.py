@@ -1,4 +1,4 @@
-from flask import render_template, url_for, flash, redirect, request
+from flask import render_template, url_for, flash, redirect, request, abort
 from weather_app import app, db, bcrypt
 from weather_app.forms import RegistrationForm, LoginForm, CityForm
 from weather_app.models import User,City
@@ -9,7 +9,8 @@ from flask_login import login_user, current_user, logout_user, login_required
 @app.route('/home')
 @login_required
 def home():
-    cities = City.query.all()
+    cities = current_user.cities
+
     return render_template('home.html', cities=cities)
 
 @app.route("/register", methods=['GET', 'POST'])
@@ -57,3 +58,15 @@ def add_city():
         flash('New City added successfully!', 'success')
         return redirect(url_for('home'))
     return render_template('add_city.html', title='New City', form=form)
+
+
+@app.route("/city/<int:city_id>/delete", methods=['GET'])
+@login_required
+def delete_city(city_id):
+    city = City.query.get_or_404(city_id)
+    if city.author != current_user:
+        abort(403)
+    db.session.delete(city)
+    db.session.commit()
+    flash('Your city has been deleted!', 'success')
+    return redirect(url_for('home'))
