@@ -1,4 +1,4 @@
-from flask import render_template, url_for, flash, redirect, request, abort
+from flask import render_template, url_for, flash, redirect, request, abort, jsonify
 from weather_app import app, db, bcrypt
 from weather_app.forms import RegistrationForm, LoginForm, CityForm
 from weather_app.models import User,City
@@ -93,5 +93,16 @@ def weather(city):
     return weather_data
 
 @app.route("/current_city",methods=['GET'])
+@login_required
 def currrent_city():
     return render_template('current_city.html', title='Current City')
+
+
+@app.route('/current_loc/<string:city>', methods=['GET'])
+@login_required
+def disp(city):
+    if not current_user.cities:
+        city_data = City(city=city, author=current_user)
+        db.session.add(city_data)
+        db.session.commit()
+    return jsonify({'city': city,"message":"success"})

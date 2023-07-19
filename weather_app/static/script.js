@@ -1,3 +1,4 @@
+//https://www.geeksforgeeks.org/how-to-get-city-name-by-using-geolocation/
 function getCoordintes() {
     var options = {
         enableHighAccuracy: true,
@@ -30,8 +31,7 @@ function getCity(coordinates) {
     var lng = coordinates[1];
 
     // Paste your LocationIQ token below.
-    xhr.open('GET', "
-https://us1.locationiq.com/v1/reverse.php?key=4a32fafb7a39dab5d3f546e118b3ef3e&lat=" +
+    xhr.open('GET', "https://us1.locationiq.com/v1/reverse.php?key=my_key&lat=" +
     lat + "&lon=" + lng + "&format=json", true);
     xhr.send();
     xhr.onreadystatechange = processRequest;
@@ -42,6 +42,22 @@ https://us1.locationiq.com/v1/reverse.php?key=4a32fafb7a39dab5d3f546e118b3ef3e&l
             var response = JSON.parse(xhr.responseText);
             var city = response.address.city;
             console.log(city);
+            const api_url ="http://127.0.0.1:5000/current_loc/"+city;
+            console.log(api_url);
+            async function getapi(url) {
+
+                // Storing response
+                const response = await fetch(url);
+
+                // Storing data in form of JSON
+                var data = await response.json();
+                console.log(data);
+                if (response) {
+                    console.log(data.data);
+                }
+            }
+            // Calling that async function
+            getapi(api_url);
             return;
         }
     }
