@@ -77,7 +77,7 @@ def delete_city(city_id):
 
 
 def weather(city):
-    apikey = "f7bdd287b92220fbdee77f978d035bda"
+    apikey = "xxxx"
     source = requests.get('https://api.openweathermap.org/data/2.5/weather',
                           params={'q':city,"appid":apikey}, verify=False).json()
     country = source["sys"]["country"]
@@ -91,3 +91,7 @@ def weather(city):
                     "humidity" : f"{humidity}%",
                     "wind_speed": f"{wind_speed} kmph"}
     return weather_data
+
+@app.route("/current_city",methods=['GET'])
+def currrent_city():
+    return render_template('current_city.html', title='Current City')
