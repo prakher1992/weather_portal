@@ -3,15 +3,19 @@ from weather_app import app, db, bcrypt
 from weather_app.forms import RegistrationForm, LoginForm, CityForm
 from weather_app.models import User,City
 from flask_login import login_user, current_user, logout_user, login_required
-
+import requests
 
 @app.route('/')
 @app.route('/home')
 @login_required
 def home():
     cities = current_user.cities
-
-    return render_template('home.html', cities=cities)
+    city_list= list()
+    for city in cities:
+        d = weather(city.city)
+        d["id"] = city.id
+        city_list.append(d)
+    return render_template('home.html', cities=city_list)
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
@@ -70,3 +74,20 @@ def delete_city(city_id):
     db.session.commit()
     flash('Your city has been deleted!', 'success')
     return redirect(url_for('home'))
+
+
+def weather(city):
+    apikey = "f7bdd287b92220fbdee77f978d035bda"
+    source = requests.get('https://api.openweathermap.org/data/2.5/weather',
+                          params={'q':city,"appid":apikey}, verify=False).json()
+    country = source["sys"]["country"]
+    temp = source["main"]["temp"]-273.15
+    weather_desc = source["weather"][0]["description"]
+    humidity  = source["main"]["humidity"]
+    wind_speed = source["wind"]["speed"]
+    weather_data = {"city":f"{city}, {country}",
+                    "temp" :"{:2f} deg C".format(temp),
+                    "weather_desc": weather_desc,
+                    "humidity" : f"{humidity}%",
+                    "wind_speed": f"{wind_speed} kmph"}
+    return weather_data
