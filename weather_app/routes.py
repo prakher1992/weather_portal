@@ -1,7 +1,7 @@
 from flask import render_template, url_for, flash, redirect, request, abort, jsonify
 from weather_app import app, db, bcrypt
 from weather_app.forms import RegistrationForm, LoginForm, CityForm, TemperatureNotifyForm, WeatherNotifyForm
-from weather_app.models import User,City
+from weather_app.models import User,City, Notification
 from flask_login import login_user, current_user, logout_user, login_required
 import requests
 
@@ -120,4 +120,10 @@ def add_notification(notification_type):
         form = TemperatureNotifyForm()
     elif notification_type ==types[1]:
         form = WeatherNotifyForm()
+    if form.validate_on_submit():
+        notification = Notification(notify_condition=form.notify_condition.data, creater=current_user,type=notification_type)
+        db.session.add(notification)
+        db.session.commit()
+        flash('New Notification Condition added successfully!', 'success')
+        return redirect(url_for('select_type'))
     return render_template('set-alert.html', form=form)

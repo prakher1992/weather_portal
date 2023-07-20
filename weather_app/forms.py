@@ -33,7 +33,7 @@ class CityForm(FlaskForm):
     submit = SubmitField('Add')
 
 class TemperatureNotifyForm(FlaskForm):
-    notify_condition = IntegerField("Temperature",validators=[DataRequired(), Length(max=3)])
+    notify_condition = IntegerField("Temperature",validators=[DataRequired()])
     submit = SubmitField('Add')
 
 class WeatherNotifyForm(FlaskForm):
