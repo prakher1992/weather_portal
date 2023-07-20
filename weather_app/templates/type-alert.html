@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+{% block content %}
+    <article class="media content-section">
+      <div class="media-body">
+        <div class="article-metadata">
+            <a class="mr-2" href="#">Select Alert Type</a>
+            <div>
+                <a type="button" class="btn btn-danger btn-sm m-1" href="{{ url_for('add_notification', notification_type='temperature') }}">Temperature</a>
+                <a type="button" class="btn btn-danger btn-sm m-1" href="{{ url_for('add_notification', notification_type='weather') }}">Weather</a>
+
+            </div>
+        </div>
+      </div>
+    </article>
+{% endblock content %}
