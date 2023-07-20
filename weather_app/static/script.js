@@ -31,7 +31,7 @@ function getCity(coordinates) {
     var lng = coordinates[1];
 
     // Paste your LocationIQ token below.
-    xhr.open('GET', "https://us1.locationiq.com/v1/reverse.php?key=my_key&lat=" +
+    xhr.open('GET', "https://us1.locationiq.com/v1/reverse.php?key=your_key&lat=" +
     lat + "&lon=" + lng + "&format=json", true);
     xhr.send();
     xhr.onreadystatechange = processRequest;
@@ -42,7 +42,7 @@ function getCity(coordinates) {
             var response = JSON.parse(xhr.responseText);
             var city = response.address.city;
             console.log(city);
-            const api_url ="http://127.0.0.1:5000/current_loc/"+city;
+            const api_url ="/current_loc/"+city;
             console.log(api_url);
             async function getapi(url) {
 

@@ -77,7 +77,7 @@ def delete_city(city_id):
 
 
 def weather(city):
-    apikey = "xxxx"
+    apikey = "xxx"
     source = requests.get('https://api.openweathermap.org/data/2.5/weather',
                           params={'q':city,"appid":apikey}, verify=False).json()
     country = source["sys"]["country"]
@@ -92,15 +92,9 @@ def weather(city):
                     "wind_speed": f"{wind_speed} kmph"}
     return weather_data
 
-@app.route("/current_city",methods=['GET'])
-@login_required
-def currrent_city():
-    return render_template('current_city.html', title='Current City')
-
-
 @app.route('/current_loc/<string:city>', methods=['GET'])
 @login_required
-def disp(city):
+def current_loc(city):
     if not current_user.cities:
         city_data = City(city=city, author=current_user)
         db.session.add(city_data)
