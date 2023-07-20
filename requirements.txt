@@ -4,3 +4,5 @@ wtforms[email]
 Flask-SQLAlchemy==3.0.5
 Flask-Bcrypt==1.0.1
 Flask-Login==0.6.2
+requests==2.31.0
+
