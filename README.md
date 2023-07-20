@@ -8,12 +8,16 @@
 ```
 pip install -r requirements.txt
 ```
-4. You need to replace current weather report api access key with your own key in file (weather_app/routes.py)
+4. You need to replace the current weather report API access key with your own key in the file (weather_app/routes.py)
+![api_key](https://github.com/prakher1992/weather_portal/assets/23658440/d6b4167d-fe15-41b7-9fea-08b83ccdf586)
 
- Note: You can get this api key by sign up on https://openweathermap.org/api
-5. You alsp need to replace current location api access key with your own key in file (weather_app/static/script.js)
+ Note: You can get this API key by signup at https://openweathermap.org/api
+ 
+5. You also need to replace the current location API access key with your own key in the file (weather_app/static/script.js)
+![location_api](https://github.com/prakher1992/weather_portal/assets/23658440/8c25158b-ad70-497a-88b3-72474d0ac9e7)
 
-Note: You can get this api key by sign up on  https://www.locationiq.com/
+Note: You can get this API key by signup on  https://www.locationiq.com/
+
 6. Now execute the command ‘python run.py’ to run the application
 
 7. Open the browser and go to http://127.0.0.1:5000
