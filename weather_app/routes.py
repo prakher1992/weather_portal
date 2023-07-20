@@ -13,8 +13,9 @@ def home():
     city_list= list()
     for city in cities:
         d = weather(city.city)
-        d["id"] = city.id
-        city_list.append(d)
+        if d:
+            d["id"] = city.id
+            city_list.append(d)
     return render_template('home.html', cities=city_list)
 
 @app.route("/register", methods=['GET', 'POST'])
@@ -80,17 +81,19 @@ def weather(city):
     apikey = "xxx"
     source = requests.get('https://api.openweathermap.org/data/2.5/weather',
                           params={'q':city,"appid":apikey}, verify=False).json()
-    country = source["sys"]["country"]
-    temp = source["main"]["temp"]-273.15
-    weather_desc = source["weather"][0]["description"]
-    humidity  = source["main"]["humidity"]
-    wind_speed = source["wind"]["speed"]
-    weather_data = {"city":f"{city}, {country}",
-                    "temp" :"{:2f} deg C".format(temp),
-                    "weather_desc": weather_desc,
-                    "humidity" : f"{humidity}%",
-                    "wind_speed": f"{wind_speed} kmph"}
-    return weather_data
+    if source.get("cod") == 200:
+        country = source["sys"]["country"]
+        temp = source["main"]["temp"]-273.15
+        weather_desc = source["weather"][0]["description"]
+        humidity  = source["main"]["humidity"]
+        wind_speed = source["wind"]["speed"]
+        weather_data = {"city":f"{city}, {country}",
+                        "temp" :"{:2f} deg C".format(temp),
+                        "weather_desc": weather_desc,
+                        "humidity" : f"{humidity}%",
+                        "wind_speed": f"{wind_speed} kmph"}
+        return weather_data
+    return None
 
 @app.route('/current_loc/<string:city>', methods=['GET'])
 @login_required
