@@ -1,6 +1,6 @@
 from flask import render_template, url_for, flash, redirect, request, abort, jsonify
 from weather_app import app, db, bcrypt
-from weather_app.forms import RegistrationForm, LoginForm, CityForm
+from weather_app.forms import RegistrationForm, LoginForm, CityForm, TemperatureNotifyForm, WeatherNotifyForm
 from weather_app.models import User,City
 from flask_login import login_user, current_user, logout_user, login_required
 import requests
@@ -103,3 +103,21 @@ def current_loc(city):
         db.session.add(city_data)
         db.session.commit()
     return jsonify({'city': city,"message":"success"})
+
+
+@app.route('/set-alert', methods=['GET','POST'])
+@login_required
+def select_type():
+    return render_template('type-alert.html', title='Select Alert Type')
+
+@app.route('/notify/<string:notification_type>', methods=['GET','POST'])
+@login_required
+def add_notification(notification_type):
+    types = ["temperature","weather"]
+    if notification_type not in types:
+        abort(404)
+    if notification_type ==types[0]:
+        form = TemperatureNotifyForm()
+    elif notification_type ==types[1]:
+        form = WeatherNotifyForm()
+    return render_template('set-alert.html', form=form)
