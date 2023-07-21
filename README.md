@@ -21,3 +21,5 @@ Note: You can get this API key by signup on  https://www.locationiq.com/
 6. Now execute the command ‘python run.py’ to run the application
 
 7. Open the browser and go to http://127.0.0.1:5000
+
+### Database design
