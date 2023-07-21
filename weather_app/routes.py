@@ -78,7 +78,7 @@ def delete_city(city_id):
 
 
 def weather(city):
-    apikey = "Your Key"
+    apikey = "f7bdd287b92220fbdee77f978d035bda"
     source = requests.get('https://api.openweathermap.org/data/2.5/weather',
                           params={'q':city,"appid":apikey}, verify=False).json()
     if source.get("cod") == 200:
