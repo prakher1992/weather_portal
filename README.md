@@ -23,3 +23,7 @@ Note: You can get this API key by signup on  https://www.locationiq.com/
 7. Open the browser and go to http://127.0.0.1:5000
 
 ### Database design
+
+![dbdiagram](https://github.com/prakher1992/weather_portal/assets/23658440/06cc538e-4567-4e64-8a19-f6f524d71ef8)
+
+
